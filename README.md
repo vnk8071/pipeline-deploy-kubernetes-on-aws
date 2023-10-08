@@ -141,14 +141,14 @@ kubectl get nodes
 ```bash
 aws sts get-caller-identity --query Account --output text 
 ```
-Result: `700736504781`
+Result: `993324276116`
 
 ### Create IAM Role and attach policy
 ```bash
 aws iam create-role --role-name UdacityFlaskDeployCBKubectlRole --assume-role-policy-document file://trust.json --output text --query 'Role.Arn'
 ```
 
-Result: `arn:aws:iam::700736504781:role/UdacityFlaskDeployCBKubectlRole`
+Result: `arn:aws:iam::993324276116:role/UdacityFlaskDeployCBKubectlRole`
 
 ```bash
 aws iam put-role-policy --role-name UdacityFlaskDeployCBKubectlRole --policy-name eks-describe --policy-document file://iam-role-policy.json
