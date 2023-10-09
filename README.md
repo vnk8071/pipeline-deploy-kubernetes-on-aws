@@ -154,6 +154,11 @@ Result: `arn:aws:iam::993324276116:role/UdacityFlaskDeployCBKubectlRole`
 aws iam put-role-policy --role-name UdacityFlaskDeployCBKubectlRole --policy-name eks-describe --policy-document file://iam-role-policy.json
 ```
 
+### Set Environment Variables
+```bash
+aws ssm put-parameter --name JWT_SECRET --value "KhoiVN-secret" --type  SecureString --region us-east-1
+```
+
 ### Create Kubernetes ConfigMap
 ```bash
 kubectl get -n kube-system configmap/aws-auth -o yaml > /tmp/aws-auth-patch.yml
@@ -169,3 +174,60 @@ In GitHub, go to Settings > Developer settings > Personal access tokens > Genera
 1. Modify `ci-cd-codepipeline.cfn.yaml` file
 2. Review the resources
 3. Create stack
+
+![cloudformation_stack](images/cloudformation_stack.png)
+
+### Create CodePipeline
+Details in `buildspec.yml` file
+
+### Check CodePipeline Deployment
+![codepipeline_build](images/codepipeline_build.png)
+
+### Test Endpoint
+```bash
+kubectl get services simple-jwt-api -o wide
+```
+
+![kubectl_service](images/kubectl_service.png)
+
+Request method `POST`:
+```bash
+export TOKEN=`curl -d '{"email":"khoivn@email.com","password":"mypwd"}' -H "Content-Type: application/json" -X POST ad4d5c8ff64e142a7b7adba1b35a5b56-2013205018.us-east-1.elb.amazonaws.com/auth  | jq -r '.token'`
+```
+
+Request method `GET`:
+```bash
+curl --request GET 'ad4d5c8ff64e142a7b7adba1b35a5b56-2013205018.us-east-1.elb.amazonaws.com/contents' -H "Authorization: Bearer ${TOKEN}" | jq
+```
+
+Result:
+```bash
+{
+  "email": "khoivn@email.com",
+  "exp": 1698029355,
+  "nbf": 1696819755
+}
+```
+
+### Delete CloudFormation Stack
+```bash
+aws cloudformation delete-stack --stack-name <stack-name>
+```
+
+### Delete EKS Cluster
+```bash
+eksctl delete cluster --name <eksname> --region=us-east-1
+```
+
+## Monitoring
+### Deployments
+![k9s_deploymments](images/k9s_deployments.png)
+
+### Pods
+![k9s_pods](images/k9s_pods.png)
+
+### Containers
+![k9s_containers](images/k9s_containers.png)
+
+### Logs
+![k9s_logs](images/k9s_logs.png)
