@@ -231,3 +231,10 @@ eksctl delete cluster --name <eksname> --region=us-east-1
 
 ### Logs
 ![k9s_logs](images/k9s_logs.png)
+
+## Auto CI/CD
+### Push new commit to GitHub
+![push_new_commit](images/push_new_commit.png)
+
+### Check CodePipeline Deployment
+![trigger_new_commit](images/trigger_new_commit.png)
