@@ -267,9 +267,14 @@ eksctl delete cluster --name <eksname> --region=us-east-1
 ### Logs
 ![k9s_logs](images/k9s_logs.png)
 
-## Auto CI/CD
+## CI/CD
 ### Push new commit to GitHub
 ![push_new_commit](images/push_new_commit.png)
+### GitHub Actions
+Build and push Docker image to Docker Hub
+![github_action_build_docker](images/github_action_build_docker.png)
 
-### Check CodePipeline Deployment
+![push_docker_hub](images/push_docker_hub.png)
+### CodePipeline
+Check CodePipeline Deployment
 ![trigger_new_commit](images/trigger_new_commit.png)
