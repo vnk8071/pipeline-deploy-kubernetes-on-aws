@@ -1,5 +1,7 @@
 # Pipeline deployment K8s cluster on AWS
 
+## Architecture
+![architecture](images/architecture.png)
 ## Prerequisites
 * Docker Desktop - Installation instructions for all OSes can be found <a href="https://docs.docker.com/install/" target="_blank">here</a>.
 * Git: <a href="https://git-scm.com/downloads" target="_blank">Download and install Git</a> for your system. 
@@ -118,12 +120,12 @@ test_main.py ..                                                                 
 
 ### Build Docker Image
 ```bash
-docker build -t token-flask-app .
+docker build -t simple-jwt-api .
 ```
 
 ### Run Docker Container
 ```bash
-docker run --detach --publish 80:8080 --env-file=.env_file token-flask-app
+docker run --detach --publish 80:8080 --env-file=.env_file simple-jwt-api
 ```
 
 ### Test Docker Container
@@ -147,14 +149,17 @@ Result"
 
 ### Push Docker Image to Docker Hub
 ```bash
-docker tag token-flask-app:latest vnk8071/token-flask-app:latest
-docker push vnk8071/token-flask-app:latest
+docker tag simple-jwt-api:latest vnk8071/simple-jwt-api:latest
+docker push vnk8071/simple-jwt-api:latest
 ```
 
 ## Deploy Application to Kubernetes Cluster
+### CloudFormation Design
+![cloudformation_template_designer](images/cloudformation_template_designer.png)
+
 ### Create EKS Cluster
 ```bash
-eksctl create cluster --name eksctl-demo-flask-token --nodes=2 --instance-types=t2.medium --region=us-east-1
+eksctl create cluster --name simple-jwt-api --nodes=2 --instance-types=t2.medium --region=us-east-1
 ```
 
 ![eksctl_create](images/eksctl_create.png)
